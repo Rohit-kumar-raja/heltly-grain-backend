@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import logo from '@/Assets/logo.png';
 </script>
 
 <template>
@@ -19,7 +18,8 @@ import logo from '@/Assets/logo.png';
             <div class="relative z-10 flex flex-col justify-center items-center w-full p-12 text-white">
                 <!-- Logo -->
                 <Link href="/" class="mb-8">
-                    <img :src="logo" alt="HealthyGain" class="h-20 w-auto drop-shadow-2xl" />
+                    <img src="https://healthy-grain.bitbytefly.com/public/assets/logo.png" alt="HealthyGain"
+                        class="h-20 w-auto drop-shadow-2xl" />
                 </Link>
 
                 <h1 class="text-4xl font-bold mb-4 text-center">Welcome to HealthyGain</h1>
@@ -66,7 +66,8 @@ import logo from '@/Assets/logo.png';
             class="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 sm:p-12 bg-slate-50 dark:bg-slate-900">
             <!-- Mobile Logo -->
             <Link href="/" class="lg:hidden mb-8">
-                <img :src="logo" alt="HealthyGain" class="h-16 w-auto" />
+                <img src="https://healthy-grain.bitbytefly.com/public/assets/logo.png" alt="HealthyGain"
+                    class="h-16 w-auto" />
             </Link>
 
             <!-- Form Container -->
