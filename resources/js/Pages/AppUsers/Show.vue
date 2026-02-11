@@ -13,9 +13,9 @@ const props = defineProps({
     user: Object
 });
 
-const health = computed(() => props.user.health_profile || {});
+const health = computed(() => props?.user?.health_profile || {});
 
-const formatKey = (key) => key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+const formatKey = (key: string) => key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
 const healthSections = [
     { key: 'vitals', label: 'Vitals', icon: 'pi pi-heart' },
@@ -30,9 +30,9 @@ const healthSections = [
 // Diet Preview
 const dietDialog = ref(false);
 const dietLoading = ref(false);
-const dietData = ref(null);
+const dietData = ref<Record<string, string> | null>({});
 
-const mealIcons = {
+const mealIcons: Record<string, string> = {
     breakfast: 'pi-sun',
     lunch: 'pi-cloud',
     dinner: 'pi-moon',
@@ -51,7 +51,7 @@ const openDietPreview = async () => {
     dietLoading.value = true;
     dietData.value = null;
     try {
-        const { data } = await axios.get(route('app-users.diet-preview', props.user.id));
+        const { data } = await axios.get(route('app-users.diet-preview', props?.user?.id));
         dietData.value = data;
     } catch (e) {
         console.error('Diet preview failed:', e);
@@ -62,8 +62,8 @@ const openDietPreview = async () => {
 
 const calorieAccuracy = computed(() => {
     if (!dietData.value) return 0;
-    const target = dietData.value.user_stats.target_calories;
-    const actual = dietData.value.plan_totals.calories;
+    const target = dietData?.value?.user_stats?.target_calories;
+    const actual = dietData?.value?.plan_totals?.calories;
     return Math.min(100, Math.round((actual / target) * 100));
 });
 </script>
@@ -77,10 +77,10 @@ const calorieAccuracy = computed(() => {
                     <Button icon="pi pi-arrow-left" label="Back to Users" text class="mb-2 pl-0" />
                 </Link>
                 <h1 class="text-2xl font-bold text-slate-800 dark:text-white flex items-center gap-3">
-                    {{ user.name }}
-                    <Tag :value="user.goal" severity="info" class="text-sm" v-if="user.goal"></Tag>
+                    {{ user?.name }}
+                    <Tag :value="user?.goal" severity="info" class="text-sm" v-if="user?.goal"></Tag>
                 </h1>
-                <p class="text-slate-500 dark:text-slate-400 mt-1">{{ user.email }} • {{ user.gender }} • {{ user.age }}
+                <p class="text-slate-500 dark:text-slate-400 mt-1">{{ user?.email }} • {{ user?.gender }} • {{ user?.age }}
                     yo</p>
             </div>
             <Button label="Preview Diet Plan" icon="pi pi-sparkles" @click="openDietPreview"
