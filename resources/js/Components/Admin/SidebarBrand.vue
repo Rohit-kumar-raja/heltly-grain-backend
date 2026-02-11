@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSidebar } from '@/Composables/useSidebar';
+import logo from '@/Assets/logo.png';
 
 defineProps<{
     title?: string;
@@ -13,8 +14,7 @@ const { sidebarCollapsed } = useSidebar();
         :class="sidebarCollapsed ? 'justify-center' : 'justify-between'">
         <div class="flex items-center gap-3">
             <!-- Logo Image -->
-            <img src="/assets/logo.png" alt="HealthyGain"
-                :class="sidebarCollapsed ? 'w-10 h-10 object-contain' : 'h-10 w-auto'" />
+            <img :src="logo" alt="HealthyGain" :class="sidebarCollapsed ? 'w-10 h-10 object-contain' : 'h-10 w-auto'" />
         </div>
         <slot />
     </div>
