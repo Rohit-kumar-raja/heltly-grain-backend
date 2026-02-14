@@ -65,3 +65,19 @@ Route::get('/storage-link', function () {
     \Illuminate\Support\Facades\Artisan::call('storage:link');
     return 'Storage link created successfully.';
 });
+
+Route::get('/debug-storage', function () {
+    $info = [];
+    $publicStorage = public_path('storage');
+
+    $info['public_path'] = public_path();
+    $info['storage_path'] = storage_path('app/public');
+    $info['link_exists'] = file_exists($publicStorage) ? 'Yes' : 'No';
+    $info['is_link'] = is_link($publicStorage) ? 'Yes' : 'No';
+    $info['link_target'] = is_link($publicStorage) ? readlink($publicStorage) : 'N/A';
+    $info['target_exists'] = file_exists(storage_path('app/public')) ? 'Yes' : 'No';
+    $info['target_perms'] = substr(sprintf('%o', fileperms(storage_path('app/public'))), -4);
+    $info['link_perms'] = file_exists($publicStorage) ? substr(sprintf('%o', fileperms($publicStorage)), -4) : 'N/A';
+
+    return $info;
+});
