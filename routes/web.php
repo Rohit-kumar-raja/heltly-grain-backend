@@ -69,15 +69,41 @@ Route::get('/storage-link', function () {
 Route::get('/debug-storage', function () {
     $info = [];
     $publicStorage = public_path('storage');
+    $storageAppPublic = storage_path('app/public');
 
-    $info['public_path'] = public_path();
-    $info['storage_path'] = storage_path('app/public');
-    $info['link_exists'] = file_exists($publicStorage) ? 'Yes' : 'No';
-    $info['is_link'] = is_link($publicStorage) ? 'Yes' : 'No';
-    $info['link_target'] = is_link($publicStorage) ? readlink($publicStorage) : 'N/A';
-    $info['target_exists'] = file_exists(storage_path('app/public')) ? 'Yes' : 'No';
-    $info['target_perms'] = substr(sprintf('%o', fileperms(storage_path('app/public'))), -4);
-    $info['link_perms'] = file_exists($publicStorage) ? substr(sprintf('%o', fileperms($publicStorage)), -4) : 'N/A';
+    $info['paths'] = [
+        'public_path' => public_path(),
+        'storage_path_configured' => $storageAppPublic,
+        'symlink_loc' => $publicStorage,
+    ];
+
+    $info['symlink_check'] = [
+        'exists' => file_exists($publicStorage) ? 'Yes' : 'No',
+        'is_link' => is_link($publicStorage) ? 'Yes' : 'No',
+        'target' => is_link($publicStorage) ? readlink($publicStorage) : 'N/A',
+    ];
+
+    // precision check: create a file
+    try {
+        $testFilename = 'debug_test_' . time() . '.txt';
+        \Illuminate\Support\Facades\Storage::disk('public')->put($testFilename, 'This is a test file.');
+
+        $realPathViaStorage = $storageAppPublic . '/' . $testFilename;
+        $realPathViaSymlink = $publicStorage . '/' . $testFilename;
+
+        $info['file_check'] = [
+            'created' => 'Yes',
+            'filename' => $testFilename,
+            'perms_via_storage' => substr(sprintf('%o', fileperms($realPathViaStorage)), -4),
+            'readable_via_symlink' => is_readable($realPathViaSymlink) ? 'Yes' : 'No',
+            'url' => \Illuminate\Support\Facades\Storage::disk('public')->url($testFilename),
+        ];
+    } catch (\Exception $e) {
+        $info['file_check'] = [
+            'created' => 'No',
+            'error' => $e->getMessage(),
+        ];
+    }
 
     return $info;
 });
