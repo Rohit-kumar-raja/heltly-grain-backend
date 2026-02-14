@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import InputText from 'primevue/inputtext';
@@ -200,8 +200,8 @@ const submitLabel = () => form.id ? 'Update Product' : 'Create Product';
                         <label class="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
                             <i class="pi pi-tags text-primary-500"></i> Category
                         </label>
-                        <Select filter v-model="form.category_id" :options="categories" optionLabel="name" optionValue="id"
-                            placeholder="Select Category"
+                        <Select filter v-model="form.category_id" :options="categories" optionLabel="name"
+                            optionValue="id" placeholder="Select Category"
                             class="w-full! rounded-xl! border-slate-200! dark:border-slate-700! focus:border-primary-500! transition-colors!" />
                     </div>
                     <div class="space-y-2">
