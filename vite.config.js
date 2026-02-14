@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd(), '');
     return {
-        base: env.ASSET_URL || '/',
+        base: env.ASSET_URL ? `${env.ASSET_URL}/build/` : '/build/',
         plugins: [
             laravel({
                 input: 'resources/js/app.ts',
