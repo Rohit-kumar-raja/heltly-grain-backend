@@ -107,3 +107,11 @@ Route::get('/debug-storage', function () {
 
     return $info;
 });
+
+Route::get('/clear-cache', function () {
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    return 'Routes, Config, Cache, and View cache cleared successfully.';
+});
