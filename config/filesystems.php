@@ -40,10 +40,10 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => public_path('storage'),
+            'root' => public_path('assets'),
             'url' => env('ASSET_URL')
-                ? rtrim(env('ASSET_URL'), '/') . '/storage'
-                : rtrim(env('APP_URL', 'http://localhost'), '/') . '/public/storage',
+                ? rtrim(env('ASSET_URL'), '/') . '/assets'
+                : rtrim(env('APP_URL', 'http://localhost'), '/') . '/public/assets',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
