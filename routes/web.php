@@ -105,6 +105,15 @@ Route::get('/debug-storage', function () {
         ];
     }
 
+    // Check parent permissions
+    $path = $storageAppPublic;
+    $perms = [];
+    while ($path !== '/' && $path !== '.') {
+        $perms[$path] = substr(sprintf('%o', fileperms($path)), -4);
+        $path = dirname($path);
+    }
+    $info['parent_perms'] = $perms;
+
     return $info;
 });
 
