@@ -37,7 +37,22 @@ createInertiaApp({
             })
             .use(ToastService)
             .use(ConfirmationService)
+            .use(ToastService)
+            .use(ConfirmationService)
             .directive('tooltip', Tooltip)
+            .mixin({
+                methods: {
+                    asset(path: string) {
+                        const assetUrl = (this.$page.props.asset_url as string) || '';
+                        const cleanPath = path.replace(/^\/+/, '');
+                        if (assetUrl) {
+                            const cleanUrl = assetUrl.replace(/\/+$/, '');
+                            return `${cleanUrl}/${cleanPath}`;
+                        }
+                        return `/${cleanPath}`;
+                    }
+                }
+            })
             .mount(el);
     },
     progress: {

@@ -50,8 +50,7 @@ const { sidebarCollapsed, mobileSidebarOpen, closeMobileSidebar } = useSidebar()
             <!-- Mobile Header -->
             <div class="h-16 flex items-center justify-between border-b border-slate-200 dark:border-slate-700 px-4">
                 <div class="flex items-center gap-3">
-                    <img src="https://healthy-grain.bitbytefly.com/public/assets/logo.png" alt="HealthyGain"
-                        class="h-10 w-auto" />
+                    <img :src="asset('assets/logo.png')" alt="HealthyGain" class="h-10 w-auto" />
                 </div>
                 <Button icon="pi pi-times" text rounded size="small" @click="closeMobileSidebar"
                     class="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200" />

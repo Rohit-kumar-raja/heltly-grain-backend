@@ -15,9 +15,10 @@ declare global {
 declare module 'vue' {
     interface ComponentCustomProperties {
         route: typeof ziggyRoute;
+        asset: (path: string) => string;
     }
 }
 
 declare module '@inertiajs/core' {
-    interface PageProps extends InertiaPageProps, AppPageProps {}
+    interface PageProps extends InertiaPageProps, AppPageProps { }
 }
