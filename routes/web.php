@@ -66,7 +66,10 @@ Route::get('/storage-link', function () {
     return 'Storage link created successfully.';
 });
 
-
+Route::get('/storage-unlink', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:unlink');
+    return 'Storage link unlinked successfully.';
+});
 Route::get('/clear-cache', function () {
     \Illuminate\Support\Facades\Artisan::call('route:clear');
     \Illuminate\Support\Facades\Artisan::call('config:clear');
