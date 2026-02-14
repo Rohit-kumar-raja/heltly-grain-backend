@@ -72,7 +72,7 @@ const deleteProduct = () => {
 
             <template #cell-image="{ data }">
                 <div class="relative group">
-                    <img v-if="data.image" :src="data.image" :alt="data.name"
+                    <img v-if="data.image" :src="asset(data.image)" :alt="data.name"
                         class="w-14 h-14 object-cover rounded-xl shadow-md ring-2 ring-white dark:ring-slate-700 group-hover:scale-105 transition-transform duration-200" />
                     <div v-else
                         class="w-14 h-14 bg-linear-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 rounded-xl flex items-center justify-center shadow-inner">
