@@ -66,56 +66,6 @@ Route::get('/storage-link', function () {
     return 'Storage link created successfully.';
 });
 
-Route::get('/debug-storage', function () {
-    $info = [];
-    $publicStorage = public_path('storage');
-    $storageAppPublic = storage_path('app/public');
-
-    $info['paths'] = [
-        'public_path' => public_path(),
-        'storage_path_configured' => $storageAppPublic,
-        'symlink_loc' => $publicStorage,
-    ];
-
-    $info['symlink_check'] = [
-        'exists' => file_exists($publicStorage) ? 'Yes' : 'No',
-        'is_link' => is_link($publicStorage) ? 'Yes' : 'No',
-        'target' => is_link($publicStorage) ? readlink($publicStorage) : 'N/A',
-    ];
-
-    // precision check: create a file
-    try {
-        $testFilename = 'debug_test_' . time() . '.txt';
-        \Illuminate\Support\Facades\Storage::disk('public')->put($testFilename, 'This is a test file.');
-
-        $realPathViaStorage = $storageAppPublic . '/' . $testFilename;
-        $realPathViaSymlink = $publicStorage . '/' . $testFilename;
-
-        $info['file_check'] = [
-            'created' => 'Yes',
-            'filename' => $testFilename,
-            'perms_via_storage' => substr(sprintf('%o', fileperms($realPathViaStorage)), -4),
-            'readable_via_symlink' => is_readable($realPathViaSymlink) ? 'Yes' : 'No',
-            'url' => \Illuminate\Support\Facades\Storage::disk('public')->url($testFilename),
-        ];
-    } catch (\Exception $e) {
-        $info['file_check'] = [
-            'created' => 'No',
-            'error' => $e->getMessage(),
-        ];
-    }
-
-    // Check parent permissions
-    $path = $storageAppPublic;
-    $perms = [];
-    while ($path !== '/' && $path !== '.') {
-        $perms[$path] = substr(sprintf('%o', fileperms($path)), -4);
-        $path = dirname($path);
-    }
-    $info['parent_perms'] = $perms;
-
-    return $info;
-});
 
 Route::get('/clear-cache', function () {
     \Illuminate\Support\Facades\Artisan::call('route:clear');
